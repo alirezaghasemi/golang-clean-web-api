@@ -1,0 +1,4 @@
+#Go Workspace file
+go.work
+
+*.log
