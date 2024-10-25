@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/alirezaghasemi/golang-clean-web-api/src/api/helper"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -33,10 +34,15 @@ func (h *TestHealthHandler) Test(c *gin.Context) {
 func (h *TestHealthHandler) HeaderBinder1(c *gin.Context) {
 	userId := c.GetHeader("UserId")
 
-	c.JSON(http.StatusOK, gin.H{
+	//c.JSON(http.StatusOK, gin.H{
+	//	"result": "HeaderBinder1",
+	//	"userId": userId,
+	//})
+
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": "HeaderBinder1",
 		"userId": userId,
-	})
+	}, true, 0))
 }
 
 func (h *TestHealthHandler) HeaderBinder2(c *gin.Context) {
@@ -58,6 +64,12 @@ func (h *TestHealthHandler) QueryBinder1(c *gin.Context) {
 		"id":     id,
 		"name":   name,
 	})
+
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "QueryBinder1",
+		"id":     id,
+		"name":   name,
+	}, true, 0))
 }
 
 func (h *TestHealthHandler) QueryBinder2(c *gin.Context) {
@@ -91,16 +103,25 @@ func (h *TestHealthHandler) BodyBinder(c *gin.Context) {
 	err := c.ShouldBindJSON(&p)
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadGateway, gin.H{
-			"validationError": err.Error(),
-		})
-		return
+		c.JSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError("", false, 0, err))
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	//if err != nil {
+	//	c.AbortWithStatusJSON(http.StatusBadGateway, gin.H{
+	//		"validationError": err.Error(),
+	//	})
+	//	return
+	//}
+
+	//c.JSON(http.StatusOK, gin.H{
+	//	"result": "UriBinder",
+	//	"person": p,
+	//})
+
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": "UriBinder",
 		"person": p,
-	})
+	}, true, 0))
 }
 
 func (h *TestHealthHandler) FormBinder(c *gin.Context) {

@@ -6,12 +6,17 @@ import (
 	"github.com/spf13/viper"
 	"log"
 	"os"
+	"time"
 )
 
 type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	Redis    RedisConfig
+	Cors     CorsConfig
+	Password PasswordConfig
+	Otp      OtpConfig
+	JWT      JWTConfig
 }
 
 type ServerConfig struct {
@@ -34,6 +39,32 @@ type RedisConfig struct {
 	minIdleConnections string
 	poolSize           string
 	pollTimeout        string
+}
+
+type CorsConfig struct {
+	AllowOrigins string
+}
+
+type PasswordConfig struct {
+	IncludeChars     bool
+	IncludeDigits    bool
+	MinLength        int
+	MaxLength        int
+	IncludeUppercase bool
+	IncludeLowercase bool
+}
+
+type OtpConfig struct {
+	ExpireTime time.Duration
+	Digits     int
+	Limiter    time.Duration
+}
+
+type JWTConfig struct {
+	AccessTokenExpireDuration  time.Duration
+	RefreshTokenExpireDuration time.Duration
+	Secret                     string
+	RefreshSecret              string
 }
 
 func GetConfig() *Config {

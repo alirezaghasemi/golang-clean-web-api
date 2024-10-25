@@ -16,18 +16,19 @@ func InitServer() {
 	cfg := config.GetConfig()
 
 	r := gin.New()
-	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest())
-	//r.Use(gin.Logger(), gin.Recovery(), middlewares.TestMiddleware())
 
 	val, ok := binding.Validator.Engine().(*validator.Validate)
 	if ok {
-		err := val.RegisterValidation("mobile", validations.IranianMobileNumberValidator, true)
-		if err != nil {
-			fmt.Println(err)
-		}
+		val.RegisterValidation("mobile", validations.IranianMobileNumberValidator, true)
+		val.RegisterValidation("password", validations.PasswordValidator, false)
 	}
 
-	v1 := r.Group("/api/v1")
+	r.Use(middlewares.Cors(cfg))
+	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest())
+
+	api := r.Group("/api")
+
+	v1 := api.Group("/v1")
 	{
 		health := v1.Group("/health")
 		routers.Health(health)

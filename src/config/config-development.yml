@@ -22,10 +22,19 @@ redis:
   minIdleConnections: 100
   poolSize: 5000
   pollTimeout: 240
-Password:
+password:
   includeChars: true
   includeDigits: true
-  minLevel: 6
-  maxLevel: 64
+  minLength: 6
+  maxLength: 64
   includeUppercase: true
   includeLowercase: true
+otp:
+  expireTime: 120
+  digits: 6
+  limiter: 100
+jwt:
+  secret: "mySecretKey"
+  refreshSecret: "mySecretKey"
+  accessTokenExpireDuration: 1440
+  refreshTokenExpireDuration: 60
