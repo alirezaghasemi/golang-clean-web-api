@@ -8,6 +8,9 @@ import (
 	"log"
 )
 
+// @SecurityDefinitions.apiKey AuthBearer
+// @in header
+// @name Authorization
 func main() {
 	cfg := config.GetConfig()
 	err := cache.InitRedis(cfg)

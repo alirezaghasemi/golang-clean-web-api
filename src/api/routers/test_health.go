@@ -15,7 +15,7 @@ func TestHealth(r *gin.RouterGroup) {
 	r.POST("/binder/query1", handler.QueryBinder1)
 	r.POST("/binder/query2", handler.QueryBinder2)
 
-	r.POST("/binder/uri/:id/:name", handler.UriBinder)
+	r.GET("/binder/uri/:id/:name", handler.UriBinder)
 
 	r.POST("/binder/body", handler.BodyBinder)
 

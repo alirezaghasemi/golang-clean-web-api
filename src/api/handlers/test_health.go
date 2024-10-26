@@ -55,6 +55,17 @@ func (h *TestHealthHandler) HeaderBinder2(c *gin.Context) {
 	})
 }
 
+// User godoc
+// @Summary User ID
+// @Description User Id Des
+// @Tags test
+// @Accept json
+// @Produce json
+// @Param id path int true "user id"
+// @Param name path string true "user name"
+// @Success 200 {object} helper.BaseHttpResponse "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/test/binder/uri/{id}/{name} [get]
 func (h *TestHealthHandler) QueryBinder1(c *gin.Context) {
 	id := c.Query("id")
 	name := c.Query("name")
@@ -96,6 +107,17 @@ func (h *TestHealthHandler) UriBinder(c *gin.Context) {
 	})
 }
 
+// BodyBinder godoc
+// @Summary User ID
+// @Description User Id Des
+// @Tags test
+// @Accept json
+// @Produce json
+// @Param person body PersonData true "person data"
+// @Success 200 {object} helper.BaseHttpResponse "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/test/binder/body [post]
+// @Security AuthBearer
 func (h *TestHealthHandler) BodyBinder(c *gin.Context) {
 
 	p := PersonData{}
