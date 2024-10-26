@@ -24,12 +24,16 @@ type ServerConfig struct {
 	RunMode string
 }
 type PostgresConfig struct {
-	host     string
-	port     string
-	user     string
-	password string
-	dbName   string
-	sslMode  string
+	Host            string
+	Port            string
+	User            string
+	Password        string
+	DbName          string
+	SslMode         string
+	Timezone        string
+	MaxIdleConns    int
+	MaxOpenConns    int
+	ConnMaxLifetime time.Duration
 }
 type RedisConfig struct {
 	Host               string

@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"github.com/alirezaghasemi/golang-clean-web-api/src/config"
 	"github.com/go-redis/redis/v8"
+	"golang.org/x/net/context"
 	"time"
 )
 
 var redisClient *redis.Client
 
-func InitRedis(cfg *config.Config) {
+func InitRedis(cfg *config.Config) error {
 	redisClient = redis.NewClient(&redis.Options{
 		Addr:               fmt.Sprintf("%s:%s", cfg.Redis.Host, cfg.Redis.Port),
 		Password:           cfg.Redis.Password,
@@ -22,6 +23,12 @@ func InitRedis(cfg *config.Config) {
 		IdleTimeout:        500 * time.Millisecond,
 		IdleCheckFrequency: cfg.Redis.IdleCheckFrequency * time.Second,
 	})
+
+	_, err := redisClient.Ping(context.Background()).Result()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func GetRedis() *redis.Client {
