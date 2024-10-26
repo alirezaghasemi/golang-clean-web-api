@@ -5,7 +5,7 @@ import (
 	"github.com/alirezaghasemi/golang-clean-web-api/src/config"
 	"github.com/alirezaghasemi/golang-clean-web-api/src/data/cache"
 	"github.com/alirezaghasemi/golang-clean-web-api/src/data/db"
-	"log"
+	"github.com/alirezaghasemi/golang-clean-web-api/src/pkg/logging"
 )
 
 // @SecurityDefinitions.apiKey AuthBearer
@@ -13,16 +13,19 @@ import (
 // @name Authorization
 func main() {
 	cfg := config.GetConfig()
+	logger := logging.NewLogger(cfg)
 	err := cache.InitRedis(cfg)
 	defer cache.CloseRedis()
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(logging.Redis, logging.Startup, err.Error(), nil)
+		//log.Fatal(err)
 	}
 
 	err = db.InitDb(cfg)
 	defer db.CloseDb()
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
+		//log.Fatal(err)
 	}
 
 	api.InitServer(cfg)

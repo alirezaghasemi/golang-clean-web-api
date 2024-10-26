@@ -17,12 +17,21 @@ type Config struct {
 	Password PasswordConfig
 	Otp      OtpConfig
 	JWT      JWTConfig
+	Logger   LoggerConfig
 }
 
 type ServerConfig struct {
 	Port    string
 	RunMode string
 }
+
+type LoggerConfig struct {
+	FilePath string
+	Encoding string
+	Level    string
+	Logger   string
+}
+
 type PostgresConfig struct {
 	Host            string
 	Port            string
