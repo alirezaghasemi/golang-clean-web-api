@@ -5,6 +5,7 @@ import (
 	"github.com/alirezaghasemi/golang-clean-web-api/src/config"
 	"github.com/alirezaghasemi/golang-clean-web-api/src/data/cache"
 	"github.com/alirezaghasemi/golang-clean-web-api/src/data/db"
+	"github.com/alirezaghasemi/golang-clean-web-api/src/data/db/migrations"
 	"github.com/alirezaghasemi/golang-clean-web-api/src/pkg/logging"
 )
 
@@ -18,15 +19,15 @@ func main() {
 	defer cache.CloseRedis()
 	if err != nil {
 		logger.Fatal(logging.Redis, logging.Startup, err.Error(), nil)
-		//log.Fatal(err)
 	}
 
 	err = db.InitDb(cfg)
 	defer db.CloseDb()
 	if err != nil {
 		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
-		//log.Fatal(err)
 	}
+
+	migrations.Up_1()
 
 	api.InitServer(cfg)
 }

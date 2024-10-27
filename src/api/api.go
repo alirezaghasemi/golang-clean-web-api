@@ -24,7 +24,7 @@ func InitServer(cfg *config.Config) {
 	r.Use(middlewares.Cors(cfg))
 	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest())
 
-	RegisterRoutes(r)
+	RegisterRoutes(r, cfg)
 	RegisterSwagger(r, cfg)
 
 	//r.Run(":5005")
@@ -39,7 +39,7 @@ func RegisterValidators() {
 	}
 }
 
-func RegisterRoutes(r *gin.Engine) {
+func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 	api := r.Group("/api")
 
 	v1 := api.Group("/v1")
@@ -47,6 +47,8 @@ func RegisterRoutes(r *gin.Engine) {
 		health := v1.Group("/health")
 		routers.Health(health)
 
+		users := v1.Group("/users")
+		routers.User(users, cfg)
 	}
 
 	{
