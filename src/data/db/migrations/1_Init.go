@@ -12,11 +12,12 @@ import (
 
 var logger = logging.NewLogger(config.GetConfig())
 
-func Up_1() {
+func Up1() {
 	database := db.GetDb()
 
 	CreateTables(database)
 	createDefaultInformation(database)
+	createCountry(database)
 }
 
 func CreateTables(database *gorm.DB) {
@@ -85,6 +86,51 @@ func createAdminUserIfNotExists(database *gorm.DB, user *models.User, roleId int
 		database.Create(user)
 		userRole := models.UserRole{UserId: user.Id, RoleId: roleId}
 		database.Create(&userRole)
+	}
+}
+
+func createCountry(database *gorm.DB) {
+	count := 0
+	database.
+		Model(&models.Country{}).
+		Select("count(*)").
+		Find(&count)
+	if count == 0 {
+		database.Create(&models.Country{Name: "Iran", Cities: []models.City{
+			{Name: "Tehran"},
+			{Name: "Isfahan"},
+			{Name: "Shiraz"},
+			{Name: "Chalus"},
+			{Name: "Ahwaz"},
+		}})
+		database.Create(&models.Country{Name: "USA", Cities: []models.City{
+			{Name: "New York"},
+			{Name: "Washington"},
+		}})
+		database.Create(&models.Country{Name: "Germany", Cities: []models.City{
+			{Name: "Berlin"},
+			{Name: "Munich"},
+		}})
+		database.Create(&models.Country{Name: "China", Cities: []models.City{
+			{Name: "Beijing"},
+			{Name: "Shanghai"},
+		}})
+		database.Create(&models.Country{Name: "Italy", Cities: []models.City{
+			{Name: "Roma"},
+			{Name: "Turin"},
+		}})
+		database.Create(&models.Country{Name: "France", Cities: []models.City{
+			{Name: "Paris"},
+			{Name: "Lyon"},
+		}})
+		database.Create(&models.Country{Name: "Japan", Cities: []models.City{
+			{Name: "Tokyo"},
+			{Name: "Kyoto"},
+		}})
+		database.Create(&models.Country{Name: "South Korea", Cities: []models.City{
+			{Name: "Seoul"},
+			{Name: "Ulsan"},
+		}})
 	}
 }
 

@@ -15,6 +15,245 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/countries": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Create a country",
+                "parameters": [
+                    {
+                        "description": "create a country",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateUpdateCountryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Country response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CountryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CountryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/countries/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get a country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get a country",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "country response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CountryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Update a country",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "update a country",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateUpdateCountryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Country response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CountryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CountryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Delete a country",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/health/": {
             "get": {
                 "description": "Health Check",
@@ -134,6 +373,144 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/users/login-by-mobile": {
+            "post": {
+                "description": "RegisterLoginByMobileNumber",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "RegisterLoginByMobileNumber",
+                "parameters": [
+                    {
+                        "description": "RegisterLoginByMobileRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RegisterLoginByMobileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/login-by-username": {
+            "post": {
+                "description": "LoginByUsername",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "LoginByUsername",
+                "parameters": [
+                    {
+                        "description": "LoginByUsernameRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginByUsernameRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/register-by-username": {
+            "post": {
+                "description": "RegisterByUsername",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "RegisterByUsername",
+                "parameters": [
+                    {
+                        "description": "RegisterUserByUsernameRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RegisterUserByUsernameRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users/send-otp": {
             "post": {
                 "description": "Send otp to user",
@@ -182,6 +559,30 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CountryResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateUpdateCountryRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 3
+                }
+            }
+        },
         "dto.GetOtpRequest": {
             "type": "object",
             "required": [
@@ -192,6 +593,73 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 11,
                     "minLength": 11
+                }
+            }
+        },
+        "dto.LoginByUsernameRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "username": {
+                    "type": "string",
+                    "minLength": 5
+                }
+            }
+        },
+        "dto.RegisterLoginByMobileRequest": {
+            "type": "object",
+            "required": [
+                "mobileNumber",
+                "otp"
+            ],
+            "properties": {
+                "mobileNumber": {
+                    "type": "string",
+                    "maxLength": 11,
+                    "minLength": 11
+                },
+                "otp": {
+                    "type": "string",
+                    "maxLength": 6,
+                    "minLength": 6
+                }
+            }
+        },
+        "dto.RegisterUserByUsernameRequest": {
+            "type": "object",
+            "required": [
+                "firstName",
+                "lastName",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "firstName": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "lastName": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "username": {
+                    "type": "string",
+                    "minLength": 5
                 }
             }
         },
@@ -226,7 +694,7 @@ const docTemplate = `{
                 "error": {},
                 "result": {},
                 "resultCode": {
-                    "type": "integer"
+                    "$ref": "#/definitions/helper.ResultCode"
                 },
                 "success": {
                     "type": "boolean"
@@ -238,6 +706,31 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "helper.ResultCode": {
+            "type": "integer",
+            "enum": [
+                0,
+                40001,
+                40101,
+                40301,
+                40401,
+                42901,
+                42902,
+                50001,
+                50002
+            ],
+            "x-enum-varnames": [
+                "Success",
+                "ValidationError",
+                "AuthError",
+                "ForbiddenError",
+                "NotFoundError",
+                "LimiterError",
+                "OtpLimiterError",
+                "CustomRecovery",
+                "InternalError"
+            ]
         },
         "validations.ValidationError": {
             "type": "object",

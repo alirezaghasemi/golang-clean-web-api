@@ -22,7 +22,7 @@ func (bm *BaseModel) BeforeCreate(tx *gorm.DB) (err error) {
 	value := tx.Statement.Context.Value("UserId")
 	var userId = -1
 	if value != nil {
-		userId = value.(int)
+		userId = int(value.(float64))
 	}
 
 	bm.CreatedAt = time.Now().UTC()

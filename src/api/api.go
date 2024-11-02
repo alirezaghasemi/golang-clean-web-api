@@ -22,7 +22,7 @@ func InitServer(cfg *config.Config) {
 
 	r.Use(middlewares.DefaultStructuredLogger(cfg))
 	r.Use(middlewares.Cors(cfg))
-	r.Use(gin.Logger(), gin.Recovery(), middlewares.LimitByRequest())
+	r.Use(gin.Logger(), gin.CustomRecovery(middlewares.ErrorHandler), middlewares.LimitByRequest())
 
 	RegisterRoutes(r, cfg)
 	RegisterSwagger(r, cfg)
@@ -45,10 +45,14 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 	v1 := api.Group("/v1")
 	{
 		health := v1.Group("/health")
-		routers.Health(health)
 
 		users := v1.Group("/users")
+
+		countries := v1.Group("/countries", middlewares.Authentication(cfg), middlewares.Authorization([]string{"admin"}))
+
+		routers.Health(health)
 		routers.User(users, cfg)
+		routers.Country(countries, cfg)
 	}
 
 	{
@@ -62,7 +66,7 @@ func RegisterSwagger(r *gin.Engine, cfg *config.Config) {
 	docs.SwaggerInfo.Description = "golang web api"
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/api"
-	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", cfg.Server.Port)
+	docs.SwaggerInfo.Host = fmt.Sprintf("127.0.0.1:%s", cfg.Server.Port)
 	docs.SwaggerInfo.Schemes = []string{"http"}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

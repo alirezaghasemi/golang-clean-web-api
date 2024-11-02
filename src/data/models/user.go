@@ -12,6 +12,20 @@ type User struct {
 	UserRoles    *[]UserRole
 }
 
+type Role struct {
+	BaseModel
+	Name      string `gorm:"type:string;size:15;unique;not null"`
+	UserRoles *[]UserRole
+}
+
+type UserRole struct {
+	BaseModel
+	UserId int
+	User   User `gorm:"foreignKey:UserId;constraint:OnUpdate:NO ACTION,OnDelete:NO ACTION;"`
+	RoleId int
+	Role   Role `gorm:"foreignKey:RoleId;constraint:OnUpdate:NO ACTION,OnDelete:NO ACTION;"`
+}
+
 /*
 user -> n roles
 role -> n users
